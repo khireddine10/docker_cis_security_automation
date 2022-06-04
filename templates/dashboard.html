@@ -1,0 +1,49 @@
+{% extends "./header.html" %} {% block content %}
+<div class="container">
+  <div class="row-fluid">
+    <div class="span3 bs-docs-sidebar">
+      Sidebar content
+      <ul id="perLogfile" class="nav nav-list bs-docs-sidenav">
+        <li id="All">
+          <a href="#"
+            ><i class="icon-chevron-right"></i>Full Run<span
+              id="AllCount"
+            ></span
+          ></a>
+        </li>
+        <li id="Passed">
+          <a href="#"
+            ><i class="icon-chevron-right"></i>Passed<span
+              id="PassedCount"
+            ></span
+          ></a>
+        </li>
+        <li id="Failed">
+          <a href="#"
+            ><i class="icon-chevron-right"></i>Failed<span
+              id="FailedCount"
+            ></span
+          ></a>
+        </li>
+      </ul>
+    </div>
+    <div id="callbackDetails" class="span9">
+      Body content
+
+      <div>
+        <input
+          class="search"
+          placeholder="Search"
+        />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="sort" data-sort="hostname">sort hostname</button
+        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="sort" data-sort="taskstatus">sort task-status</button>
+      </div>
+
+      <ul class="list"></ul>
+
+      <ul class="pagination"></ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
