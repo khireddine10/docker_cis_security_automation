@@ -8,16 +8,18 @@
     <div class="row-fluid">
       <div id="hostgroups" class="span3 bs-docs-sidebar">
         <h3>Hosts List</h3>
-        {% for host in hosts %}
-        <li>
-          <a href="/hosts/{{host.id}}"
-            ><i class="icon-chevron-right"></i> {{host}}</a
-          >
-        </li>
-        {% endfor %}
+        <ul class="nav nav-list bs-docs-sidenav">
+          {% for host in hosts %}
+          <li class="inventoryEntry">
+            <a href="/hosts/{{host.id}}"
+              ><i class="icon-chevron-right"></i> {{host}}</a
+            >
+          </li>
+          {% endfor %}
+        </ul>
       </div>
 
-      <div class="span6" id="hostdetails">
+      <div class="span6 mytable" style="margin-left: 20%" id="hostdetails">
         <!--Body content-->
         <dl class="dl-horizontal">
           <dt>Host Informations</dt>

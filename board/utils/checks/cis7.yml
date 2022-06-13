@@ -1,0 +1,37 @@
+- name : Docker host configuration
+  hosts: localhost
+  remote_user: ubuntu
+  become: yes
+  vars: 
+    path: /home/khirou/Desktop/pfe/software/cis/
+  tasks:   
+    - name : 7.1 Ensure swarm mode is not Enabled, if not needed (Automated)
+      script: "{{ path }}/check7.1.sh"
+
+    - name : 7.2 Ensure that the minimum number of manager nodes have been created in a swarm (Automated)
+      shell: "{{ path }}/check7.2.sh >> /tmp/log7"
+      
+
+    - name : 7.3 Ensure that swarm services are bound to a specific host interface (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.3.sh >> /tmp/log7
+
+    - name : 7.4 Ensure that all Docker swarm overlay networks are encrypted (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.4.sh >> /tmp/log7
+
+    - name : 7.5 Ensure that Docker's secret management commands are used for managing secrets in a swarm cluster (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.5.sh >> /tmp/log7
+
+    - name : 7.6 Ensure that swarm manager is run in auto-lock mode (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.6.sh >> /tmp/log7
+
+    - name : 7.7 Ensure that the swarm manager auto-lock key is rotated periodically (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.7.sh >> /tmp/log7
+
+    - name : 7.8 Ensure that node certificates are rotated as appropriate (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.8.sh >> /tmp/log7
+
+    - name : 7.9 Ensure that CA certificates are rotated as appropriate (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.9.sh >> /tmp/log7
+
+    - name : 7.10 Ensure that management plane traffic is separated from data plane traffic (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.10.sh >> /tmp/log7

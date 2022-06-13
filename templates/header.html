@@ -31,7 +31,7 @@
         <ul class="nav">
           <li class="{% url 'home' %}"><a href="/">Dashboard</a></li>
           <li><a href="{% url 'hosts' last_id  %}">Connected Hosts</a></li>
-          <li><a href="{% url 'cischecks' %}">CIS Checks</a></li>
+          <li><a href="{% url 'cischecks' 1  %}">CIS Checks</a></li>
           <li><a href="{% url 'vulchecks' %}">Vulnerabilities Checks</a></li>
           <li>
             <a> <b>User: {{ user.username }}</b></a>

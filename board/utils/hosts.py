@@ -23,3 +23,12 @@ def test_connectivity(hostname, ansible_password, ansible_user):
         return True
     else:
         return False
+
+
+def get_hosts_from_invenotry():
+    INVENTORY_PATH = "/home/khirou/Desktop/pfe/dashboard/dashboard/board/inventories/check.txt"
+    myhostlist = list()
+    with open(INVENTORY_PATH, "r") as f:
+        for line in f:
+            myhostlist.append(line.split(None, 1)[0])
+    return myhostlist

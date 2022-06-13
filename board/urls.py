@@ -21,11 +21,14 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('index', views.home, name="index"),
     path('hosts/<str:pk>/', views.hosts, name="hosts"),
-    path('cischecks', views.cisChecks, name="cischecks"),
+    path('cischecks/<str:pk>/', views.cisChecks, name="cischecks"),
     path('vulchecks', views.vulChecks, name="vulchecks"),
     path('signin', views.login_view, name="signin"),
     path('logout', views.logout, name='logout'),
     path('addhost', views.addHost, name='addhost'),
     path('modifyhost', views.modifyHost, name='modifyhost'),
     path('deletehost', views.deleteHost, name='deletehost'),
+    path('lastcheck/<str:pk>/', views.lastCheck, name="lastcheck"),
+    path('runcheck', views.runCheck, name="runcheck"),
+    path('checkcor', views.checkCor, name="checkcor")
 ]
