@@ -1,5 +1,6 @@
 import os
 import sys
+import glob
 
 
 INVENTORY_PATH = "/home/khirou/Desktop/pfe/dashboard/dashboard/board/inventories/check.txt"
@@ -19,13 +20,11 @@ def delete_inventory():
 
 
 def remove_log_files():
-    for i in range(1, 8):
-        file = "/tmp/log" + str(i)
-        if os.path.exists(file):
-            os.remove(file)
+    for filename in glob.glob("/tmp/log*"):
+        os.remove(filename)
 
 
-def runcheck(checkNum, ansible_user, ansible_password, log_file):
+def runcheck(checkNum, ansible_user, ansible_password):
     checkPlay = PLAYBOOKS_PATH + str(checkNum) + ".yml"
     ansible_command = "ansible-playbook" + " " + checkPlay + " -i " + INVENTORY_PATH + \
         " --extra-vars " + '"' + \

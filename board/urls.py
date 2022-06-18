@@ -30,5 +30,8 @@ urlpatterns = [
     path('deletehost', views.deleteHost, name='deletehost'),
     path('lastcheck/<str:pk>/', views.lastCheck, name="lastcheck"),
     path('runcheck', views.runCheck, name="runcheck"),
-    path('checkcor', views.checkCor, name="checkcor")
+    path('checkcor/<str:pk>/', views.checkCor, name="checkcor"),
+    path('addCor', views.addCor, name="addcor"),
+    path('runcor', views.runCor, name="runcor")
+
 ]

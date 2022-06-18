@@ -13,42 +13,29 @@
               <ul class="nav">
                 <li><a href="{% url 'cischecks' 1 %}">Run CIS Checks</a></li>
                 <li><a href="hosts.html"></a></li>
-                <li class="active"><a href="{% url 'lastcheck' 1 %}">Lastest CIS Check</a></li>
+                <li class="active"><a href="{% url 'lastcheck' myhost %}">Lastest CIS Check</a></li>
                 <li><a href="roles.html"></a></li>
-                <li><a href="{% url 'checkcor' %}">CIS Check Corrections</a></li>
+                <li><a href="{% url 'checkcor' myhost %}">CIS Check Corrections</a></li>
               </ul>
             </div>
       </header>
       <div class="">
           <div class="span3 bs-docs-sidebar myinputs1">
-            <h3>Last Checks</h3>
+            <h3>Last Checks Hosts</h3>
             <!--Sidebar content-->
             <ul id="roleList" class="nav nav-list bs-docs-sidenav">
-              {% for ch in my_checks_db %}
-              <li class="active">
-                <a href="{% url 'lastcheck' ch %}"><i class="icon-chevron-right"></i>
-                  <div class="form-check form-switch">
-                  check{{ch}}</div></a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-          <div class="span3 bs-docs-sidebar myinputs1">
-            <h3>Last hosts</h3>
-            <!--Sidebar content-->
-            <ul id="roleList" class="nav nav-list bs-docs-sidenav">
-              {% for h in myhosts %}
-              <li class="active">
-                <a href="#"><i class="icon-chevron-right"></i>
-                  <div class="form-check form-switch">
-                  {{h}}</div></a>
-              </li>
+              {% for host in list_of_hosts %}
+                <li class="active">
+                  <a href="{% url 'lastcheck' host %}"><i class="icon-chevron-right"></i>
+                    <div class="form-check form-switch">
+                    {{host}}</div></a>
+                </li>
               {% endfor %}
             </ul>
           </div>
         <div class="span9 margin-top">
           <!--Body content-->
-          <form method="post" action="{% url "checkcor" %}">
+          <form method="post" action="{% url "addcor" %}">
             {% csrf_token %}
             <table class="table table-striped table-bordered">
               <caption>
@@ -64,21 +51,21 @@
                 {% load myfilters %}
                 {% for key, value in get_check.items %}
                   <tr>
-                    <td>{{key}}</td>
-                    <td>
+                    <td class="tr1">{{ key }}</td>
+                    <td class="tr2">
                         {% if 'PASS' in value %}
                           <span style="color:green">{{ value }} </span>
-                          <input class="form-check-input" name="checks" type="checkbox" value="cor{{checkNum}}.{{ forloop.counter }}.sh">
+                          <input class="form-check-input" name="checks" type="checkbox" value="corr{{ key | get_check_id  }}">
                         {% elif 'WARN' in value %}
                           <span style="color:red">{{ value }} </span>
-                          <input class="form-check-input" name="checks" type="checkbox" value="cor{{checkNum}}.{{ forloop.counter }}.sh">
+                          <input class="form-check-input" name="checks" type="checkbox" value="corr{{ key | get_check_id }}">
                         {% else %}
                           <span style="color:blue">{{ value }} </span>
-                          <input class="form-check-input" name="checks" type="checkbox" value="cor{{checkNum}}.{{ forloop.counter }}.sh">
-                        {% endif %}
-                        
+                          <input class="form-check-input" name="checks" type="checkbox" value="corr{{ key | get_check_id }}">
+                        {% endif %} 
                     </td>
                   </tr>
+                  <input class="form-check-input" name="checknum" type="hidden" value="{{checkNum}}">
                 {% endfor %}
               </tbody>
             </table>

@@ -5,6 +5,7 @@
 
 .myinputs1 {
   margin-right: 220px;
+  margin-bottom: 30px;
 }
 
 .margin-top {
@@ -17,4 +18,24 @@
 
 .margin-bottom {
   margin-bottom: 50px;
+}
+
+.credentials {
+  margin-top: 50px;
+}
+
+label {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.form-outline input {
+  padding: 10px;
+}
+
+.tr1 {
+  width: 65%;
+}
+.tr2 {
+  width: 35%;
 }

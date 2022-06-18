@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
 from .docerators import unauthenticated_user, allowed_users
-from .models import host, check
+from .models import host, check, correction
 from .utils import hosts as h
 from .utils import check as c
-from .utils import split
+from .utils import logs
+from .utils import corr
 
 # Create your views here.
 
@@ -141,6 +142,7 @@ def cisChecks(request,  pk):
     myrange = range(1, 8)
     hosts = host.objects.all()
     mychecks = check.objects.filter(checknumber=pk)
+    myhost = h.get_hosts_from_invenotry()[0]
     return render(request, "cischecks.html", locals())
 
 
@@ -160,13 +162,16 @@ def runCheck(request, allowed):
                 else:
                     pass
             c.remove_log_files()
+            user = request.POST.get("user")
+            password = request.POST.get("password")
             for mycheck in checks:
-                c.runcheck(mycheck, "khirou", "securityA123*", "/tmp/log7")
+                c.runcheck(mycheck, user, password)
             try:
                 last_id = host.objects.all()[:1].get().id
             except:
                 last_id = 1
-            return redirect("lastcheck/1")
+            myhost = myhosts = h.get_hosts_from_invenotry()[0]
+            return redirect("lastcheck/"+myhost)
         else:
             return HttpResponse(status=405)
     else:
@@ -176,10 +181,12 @@ def runCheck(request, allowed):
 
 @login_required(login_url="signin")
 def lastCheck(request, pk):
-    my_checks_db = split.read_log()
-    myhosts = h.get_hosts_from_invenotry()
+    list_of_logs = logs.get_host_logs(str(pk))
+    my_checks_db = logs.read_log(list_of_logs)
+    list_of_hosts = h.get_hosts_from_invenotry()
+    myhost = h.get_hosts_from_invenotry()[0]
     try:
-        get_check = my_checks_db[int(pk)]
+        get_check = my_checks_db[pk]
     except:
         get_check = None
     checkNum = str(pk)
@@ -193,11 +200,29 @@ def lastCheck(request, pk):
 @login_required(login_url="signin")
 @allowed_users("correcteur")
 def addCor(request, allowed):
-    checks = request.POST.getlist('checks')
-    checklist = ""
-    for check in checks:
-        checklist = str(check) + ","
-    print(checklist)
+    if allowed:
+        if request.method == "POST":
+            correction.objects.all().delete()
+            checks = request.POST.getlist('checks')
+            checklist = ""
+            for check in checks:
+                checklist = checklist + str(check) + ","
+            checklist = checklist[:-1]
+            print(checklist)
+            hostname = request.POST.get('checknum')
+            newCor = correction(hostname=hostname, checklist=checklist)
+            newCor.save()
+            try:
+                last_id = host.objects.all()[:1].get().id
+            except:
+                last_id = 1
+            myhost = myhosts = h.get_hosts_from_invenotry()[0]
+            return redirect("checkcor/" + str(myhost))
+        else:
+            return HttpResponse(status=405)
+    else:
+        return HttpResponse(status=405)
+
     try:
         last_id = host.objects.all()[:1].get().id
     except:
@@ -207,12 +232,40 @@ def addCor(request, allowed):
 
 @login_required(login_url="signin")
 @allowed_users("correcteur")
-def checkCor(request, allowed):
+def checkCor(request, allowed, pk):
+    myhosts = h.get_hosts_from_invenotry()
+    myhost = h.get_hosts_from_invenotry()[0]
+    host_get_corr = str(pk)
+    try:
+        my_corr_list = list()
+        mycorrection_checklist = correction.objects.get(
+            hostname=pk).checklist.split(",")
+        print(mycorrection_checklist)
+    except:
+        mycorrection = None
+        print("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     try:
         last_id = host.objects.all()[:1].get().id
     except:
         last_id = 1
     return render(request, "checkcor.html", locals())
+
+
+@login_required(login_url="signin")
+@allowed_users("correcteur")
+def runCor(request, allowed):
+    if allowed:
+        if request.method == "POST":
+            checks = request.POST.getlist('checks')
+            hostname = request.POST.get('host_get_corr')
+            corr.delete_inventory()
+            k = host.objects.get(hostname=hostname)
+            corr.build_inventory(str(k.hostname), str(k.password), str(k.user))
+            for c in checks:
+                corr.run_corr(c, "securityA123*")
+            myhost = h.get_hosts_from_invenotry()[0]
+
+        return redirect("checkcor/"+myhost)
 
 
 @login_required(login_url="signin")

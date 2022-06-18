@@ -24,5 +24,8 @@ class check(models.Model):
 
 
 class correction(models.Model):
-    checknumber = models.IntegerField()
+    hostname = models.CharField(max_length=200, null=False)
     checklist = models.CharField(max_length=200, null=False)
+
+    def __str__(self):
+        return str(self.hostname)

@@ -1,0 +1,10 @@
+---
+- name: Docker host configuration
+  remote_user: root
+  become: yes
+  hosts: all
+  vars:
+    corr_path: "/home/khirou/Desktop/pfe/dashboard/dashboard/board/utils/corrections"
+  tasks:
+    - name: run the correction
+      shell: "{{ corr_path }}/{{ name }} >> /tmp/holamia"

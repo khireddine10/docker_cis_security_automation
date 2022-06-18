@@ -1,12 +1,12 @@
 - name: Docker host configuration
-  hosts: localhost
   remote_user: root
   become: yes
+  hosts: all
   vars:
     path: /home/khirou/Desktop/pfe/dashboard/dashboard/board/utils/checks
   tasks:
     - name: executing CIS number 7
-      shell: "{{ path }}/check7.{{ item }}.sh >> /tmp/log7"
+      shell: "{{ path }}/check7.{{ item }}.sh >> /tmp/log7-{{ inventory_hostname }}"
       loop:
         - 1
         - 2
