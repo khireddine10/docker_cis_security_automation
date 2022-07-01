@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo " ******* 2.15 Ensure live restore is enabled (Automated) *******"
+
+str1=$(ls /etc/docker | grep daemon);
+if [ -z "$str1" ] ; then printf "\033[1;34m [INFO] The daemon server isn't configured \033[0m\n";
+else
+    str=$(docker info --format '{{ .LiveRestoreEnabled }}')
+
+    if [ "$str" == "true" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+    else printf "\033[1;31m [WARN] You should ensure that the Live Restore Enabled property is set to true \033[0m\n";
+    fi
+fi

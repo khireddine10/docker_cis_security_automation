@@ -33,3 +33,17 @@ def get_host_logs(hostname):
 
 def get_host_from_log(file):
     return file.split('-')[1]
+
+
+def get_host_corr_logs(hostname):
+    list_of_logs = []
+    mypath = "/tmp/corr-" + str(hostname)
+    mylist = list()
+    if os.path.exists(mypath):
+        with open(mypath, 'r') as file:
+            data = file.read().split("*Done*", 20)
+    ourdata = list()
+    for mydata in data:
+        ourdata.append(mydata.replace("\033[1;34m", "").replace("\033[1;31m", "").replace(
+            "\033[1;32m", "").replace("\033[1;31m", "").replace("\033[0m", "").replace("[0;32m", "").replace("[0;31m", "").replace("[0;33m", ""))
+    return ourdata

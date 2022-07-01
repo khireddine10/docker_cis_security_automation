@@ -1,3 +1,6 @@
 #!/bin/bash 
 
 chmod 644 /etc/sysconfig/docker
+
+echo "Done"
+echo "*Done*"

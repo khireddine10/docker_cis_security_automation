@@ -22,5 +22,10 @@ def run_corr(corr_number, password):
     ansible_command = "ansible-playbook " + playbook_path + " -i " + INVENTORY_CORR_PATH + " " + "--extra-vars " + \
         '"' + 'ansible_sudo_pass=' + \
         str(password) + ' name=' + corr_number + '"'
-    print(ansible_command)
     ansible_result = os.popen(ansible_command).read()
+
+
+def remove_corr_log_file(hostname):
+    path = "/tmp/corr-" + hostname
+    if os.path.exists(path):
+        os.remove(path)

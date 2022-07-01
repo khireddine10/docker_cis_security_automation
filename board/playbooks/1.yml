@@ -6,7 +6,7 @@
     path: /home/khirou/Desktop/pfe/dashboard/dashboard/board/utils/checks
   tasks:
     - name: executing CIS number 1
-      shell: "{{ path }}/check1.{{ item }}.sh >> /tmp/log1"
+      shell: "{{ path }}/check1.{{ item }} >> /tmp/log1-{{ inventory_hostname }}"
       loop:
         - 1.1
         - 1.2
@@ -18,13 +18,5 @@
         - 1.8
         - 1.9
         - 1.10
-        - 1.11
-        - 1.12
-        - 1.13
-        - 1.14
-        - 1.15
-        - 1.16
-        - 1.17
-        - 1.18
         - 2.1
         - 2.2

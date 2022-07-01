@@ -12,3 +12,5 @@ else printf "$(sed '$d' /etc/docker/daemon.json)\n        $str\n}" > /etc/docker
 fi
 
 
+echo "Done"
+echo "*Done*"

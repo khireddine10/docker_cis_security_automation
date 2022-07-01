@@ -1,3 +1,6 @@
 #!/bin/bash 
 
 chown root:docker /var/run/docker.sock
+
+echo "Done"
+echo "*Done*"

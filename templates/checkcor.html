@@ -39,29 +39,27 @@
             {% csrf_token %}
             <table class="table table-striped table-bordered">
               <caption>
-                Checks Results
+                choose a correction to execute
               </caption>
               <thead>
                 <tr>
-                  <th>Check Description</th>
-                  <th>Check Result</th>
+                  <th>choose a correction</th>
                 </tr>
               </thead>
               <tbody id="host_details_keyval">
                 {% load myfilters %}
                 {% for cor in mycorrection_checklist %}
                   <tr>
-                    <td>{{ cor }}</td>
                     <td>
                         {% if 'PASS' in value %}
-                          <span style="color:green">{{ result }}</span>
-                          <input class="form-check-input" name="checks" type="checkbox" value="{{ cor }}">
+                          <span style="color:green">{{ cor }}</span>
+                          <input class="form-check-input" name="checks" type="checkbox" value="corr{{ cor | get_check_id }}">
                         {% elif 'WARN' in value %}
-                          <span style="color:red">{{ result }}</span>
-                          <input class="form-check-input" name="checks" type="checkbox" value="{{ cor }}">
+                          <span style="color:red">{{ cor }}</span>
+                          <input class="form-check-input" name="checks" type="checkbox" value="corr{{ cor | get_check_id }}">
                         {% else %}
-                          <span style="color:blue">{{ result }}</span>
-                          <input class="form-check-input" name="checks" type="checkbox" value="{{ cor }}">
+                          <span style="color:blue">{{ cor }}</span>
+                          <input class="form-check-input" name="checks" type="checkbox" value="corr{{ cor | get_check_id }}">
                         {% endif %} 
                     </td>
                   </tr>
@@ -69,6 +67,34 @@
                   <input class="form-check-input" name="checknum" type="hidden" value="{{checkNum}}">
                 {% endfor %}
               </tbody>
+            </table>
+            <table class="table table-striped table-bordered">
+              <caption>
+                Correction results
+              </caption>
+              <tbody id="host_details_keyval">
+                {% for correction in my_correction_results %}
+                  <tr>
+                    <td>
+                        {% if 'PASS' in value %}
+                          <span style="color:green">{{ correction }}</span>
+                        {% elif 'WARN' in value %}
+                          <span style="color:red">{{ correction }}</span>
+                        {% else %}
+                          <span style="color:blue">{{ correction }}</span>
+                        {% endif %} 
+                    </td>
+                  </tr>
+                  <input name="host_get_corr" type="hidden" value="{{ host_get_corr }}">
+                  <input class="form-check-input" name="checknum" type="hidden" value="{{checkNum}}">
+                {% endfor %}
+              </tbody>
+              <thead>
+                <tr>
+                  <th>Correction results</th>
+                </tr>
+              </thead>
+              
             </table>
             <div class="span3 bs-docs-sidebar margin-bottom margin-left">
               <button
@@ -79,7 +105,7 @@
                   input_size input_margin
                 "
               >
-                <b>Check for the corrections</b>
+                <b>execute the corrections</b>
             </button>
           </form>
           

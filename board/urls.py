@@ -32,6 +32,8 @@ urlpatterns = [
     path('runcheck', views.runCheck, name="runcheck"),
     path('checkcor/<str:pk>/', views.checkCor, name="checkcor"),
     path('addCor', views.addCor, name="addcor"),
-    path('runcor', views.runCor, name="runcor")
+    path('runcor', views.runCor, name="runcor"),
+    path('runvuln', views.execute_vuln, name="runvuln"),
+    path('vulresult/<str:pk>/', views.vulChecksResult, name="vulresult")
 
 ]

@@ -5,3 +5,5 @@ printf "\033[1;34m [INFO] 2.13 - Follow this steps to configure the remote loggi
 	Step 2: Start the docker daemon using that logging driver.
 	For example: 'dockerd --log-driver=syslog --log-opt syslog-address=tcp://192.xxx.xxx.xxx' \033[0m\n" 
 
+echo "Done"
+echo "*Done*"

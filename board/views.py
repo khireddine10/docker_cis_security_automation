@@ -10,8 +10,9 @@ from .utils import hosts as h
 from .utils import check as c
 from .utils import logs
 from .utils import corr
+from .utils import vuln
 
-# Create your views here.
+# Create your views here. 126.8
 
 
 @unauthenticated_user
@@ -142,7 +143,10 @@ def cisChecks(request,  pk):
     myrange = range(1, 8)
     hosts = host.objects.all()
     mychecks = check.objects.filter(checknumber=pk)
-    myhost = h.get_hosts_from_invenotry()[0]
+    try:
+        myhost = h.get_hosts_from_invenotry()[0]
+    except:
+        myhost = None
     return render(request, "cischecks.html", locals())
 
 
@@ -206,18 +210,18 @@ def addCor(request, allowed):
             checks = request.POST.getlist('checks')
             checklist = ""
             for check in checks:
-                checklist = checklist + str(check) + ","
+                checklist = checklist + str(check) + "*"
             checklist = checklist[:-1]
-            print(checklist)
             hostname = request.POST.get('checknum')
             newCor = correction(hostname=hostname, checklist=checklist)
             newCor.save()
+            corr.remove_corr_log_file(hostname)
             try:
                 last_id = host.objects.all()[:1].get().id
             except:
                 last_id = 1
             myhost = myhosts = h.get_hosts_from_invenotry()[0]
-            return redirect("checkcor/" + str(myhost))
+            return redirect("checkcor/"+myhost)
         else:
             return HttpResponse(status=405)
     else:
@@ -237,13 +241,15 @@ def checkCor(request, allowed, pk):
     myhost = h.get_hosts_from_invenotry()[0]
     host_get_corr = str(pk)
     try:
+        my_correction_results = logs.get_host_corr_logs(host_get_corr)
+    except:
+        my_correction_results = None
+    try:
         my_corr_list = list()
         mycorrection_checklist = correction.objects.get(
-            hostname=pk).checklist.split(",")
-        print(mycorrection_checklist)
+            hostname=pk).checklist.split("*")
     except:
         mycorrection = None
-        print("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     try:
         last_id = host.objects.all()[:1].get().id
     except:
@@ -258,6 +264,7 @@ def runCor(request, allowed):
         if request.method == "POST":
             checks = request.POST.getlist('checks')
             hostname = request.POST.get('host_get_corr')
+            corr.remove_corr_log_file(hostname)
             corr.delete_inventory()
             k = host.objects.get(hostname=hostname)
             corr.build_inventory(str(k.hostname), str(k.password), str(k.user))
@@ -270,9 +277,65 @@ def runCor(request, allowed):
 
 @login_required(login_url="signin")
 @allowed_users("correcteur")
-def vulChecks(request):
+def vulChecks(request, allowed):
+
+    hosts = host.objects.all()
+    try:
+        myhost = h.get_hosts_from_invenotry()[0]
+    except:
+        myhost = myhost = None
+
     try:
         last_id = host.objects.all()[:1].get().id
     except:
         last_id = 1
-    return render(request, "hosts.html", locals())
+    return render(request, "vuln.html", locals())
+
+
+@login_required(login_url="signin")
+@allowed_users("correcteur")
+def vulChecksResult(request, allowed, pk):
+
+    hosts = vuln.get_hosts()
+    try:
+        myhost = h.get_hosts_from_invenotry()[0]
+    except:
+        myhost = myhost = None
+
+    try:
+        last_id = host.objects.all()[:1].get().id
+    except:
+        last_id = 1
+    return render(request, "results.html", locals())
+
+
+@login_required(login_url="signin")
+@allowed_users("correcteur")
+def execute_vuln(request, allowed):
+    if allowed:
+        if request.method == "POST":
+            checks1 = request.POST.getlist('checks1')
+            print(checks1)
+            vuln.delete_inventory()
+            for myhostId in checks1:
+                myhost = host.objects.get(pk=int(myhostId))
+                if h.test_connectivity(str(myhost.hostname), str(myhost.password), str(myhost.user)):
+                    vuln.build_inventory(
+                        myhost.hostname, myhost.password, myhost.user)
+                else:
+                    pass
+            vuln.remove_version_files()
+            user = request.POST.get("user")
+            password = request.POST.get("password")
+            vuln.create_versions(password)
+            try:
+                last_id = host.objects.all()[:1].get().id
+            except:
+                last_id = 1
+            myhost = myhosts = h.get_hosts_from_invenotry()[0]
+            return redirect("vulchecks")
+        else:
+            return HttpResponse(status=405)
+    else:
+        return HttpResponse(status=405)
+    pass

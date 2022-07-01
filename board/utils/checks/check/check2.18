@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+echo " ******* 2.18 Ensure that experimental features are not implemented in production (Automated) *******"
+
+str=$(docker version --format '{{ .Server.Experimental }}')
+
+if [ "$str" == "false" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] You should not pass --experimental as a runtime parameter to the Docker daemon \033[0m\n";
+fi

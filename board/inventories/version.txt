@@ -1,0 +1,2 @@
+127.0.0.1 ansible_ssh_pass=securityA123* ansible_ssh_user=khirou
+localhost ansible_ssh_pass=securityA123* ansible_ssh_user=khirou

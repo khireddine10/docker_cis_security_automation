@@ -1,1 +1,0 @@
-localhost ansible_ssh_pass=securityA123* ansible_ssh_user=khirou
