@@ -1,8 +1,6 @@
 #!/bin/bash
 
 str=$(systemctl show -p FragmentPath docker.socket | cut -d "=" -f2)
-
 chmod 644 $str
-
 echo "Done"
 echo "*Done*"

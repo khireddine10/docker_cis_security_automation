@@ -35,34 +35,82 @@
           </div>
           <table class="table table-striped table-bordered">
             <caption>
-              Checks Results
+              <b> Docker version: 1.11.0  </b>
             </caption>
             <thead>
               <tr>
-                <th>Application Type</th>
-                <th>Vulnerabilities</th>
+                <th>CVE</th>
+                <th>Description</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="host_details_keyval">
+                <tr>
+                  <td class="tr2">CVE-2018-10892</td>
+                  <td class="tr1">
+                    The default OCI linux spec in oci/defaults{_linux}.go in Docker/Moby from 1.11 to current does not block /proc/acpi pathnames. The flaw allows an attacker to modify host's hardware like enabling/disabling bluetooth or turning up/down keyboard brightness.
+                  </td>
+                  <td class="tr2">
+                    5.3
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tr2">CVE-2018-15514</td>
+                  <td class="tr1">
+                    HandleRequestAsync in Docker for Windows before 18.06.0-ce-rc3-win68 (edge) and before 18.06.0-ce-win72 (stable) deserialized requests over the \\\\.\\pipe\\dockerBackend named pipe without verifying the validity of the deserialized .NET objects. This would allow a malicious user in the "docker-users" group (who may not otherwise have administrator access) to escalate to administrator privileges.
+                  </td>
+                  <td class="tr2">
+                    8.8
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+          <table class="table table-striped table-bordered">
+            <caption>
+              <b> Runc version: 0.1.1  </b>
+            </caption>
+            <thead>
+              <tr>
+                <th>CVE</th>
+                <th>Description</th>
+                <th>Score</th>
               </tr>
             </thead>
             <tbody id="host_details_keyval">
               {% load myfilters %}
-              {% for key, value in get_check.items %}
                 <tr>
-                  <td class="tr1">{{ key }}</td>
+                  <td class="tr2">CVE-2019-19921</td>
+                  <td class="tr1">
+                    runc through 1.0.0-rc9 has Incorrect Access Control leading to Escalation of Privileges, related to libcontainer/rootfs_linux.go. To exploit this, an attacker must be able to spawn two containers with custom volume-mount configurations, and be able to run custom images. (This vulnerability does not affect Docker due to an implementation detail that happens to block the attack.)
+                  </td>
                   <td class="tr2">
-                      <!--{% if 'PASS' in value %}
-                        <span style="color:green">{{ value }} </span>
-                        <input class="form-check-input" name="checks" type="checkbox" value="corr{{ key }}">
-                      {% elif 'WARN' in value %}
-                        <span style="color:red">{{ value }} </span>
-                        <input class="form-check-input" name="checks" type="checkbox" value="corr{{ key }}">
-                      {% else %}
-                        <span style="color:blue">{{ value }} </span>
-                        <input class="form-check-input" name="checks" type="checkbox" value="corr{{ key }}">
-                      {% endif %}-->
+                    7.0
                   </td>
                 </tr>
-                <input class="form-check-input" name="checknum" type="hidden" value="{{checkNum}}">
-              {% endfor %}
+            </tbody>
+          </table>
+          <table class="table table-striped table-bordered">
+            <caption>
+              <b> Containerd version: 1.2.1 </b>
+            </caption>
+            <thead>
+              <tr>
+                <th>CVE</th>
+                <th>Description</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="host_details_keyval">
+              {% load myfilters %}
+                <tr>
+                  <td class="tr2">CVE-2020-15157</td>
+                  <td class="tr1">
+                    In containerd (an industry-standard container runtime) before version 1.2.14 there is a credential leaking vulnerability. If a container image manifest in the OCI Image format or Docker Image V2 Schema 2 format includes a URL for the location of a specific image layer (otherwise known as a “foreign layer”), the default containerd resolver will follow that URL to attempt to download it. In v1.2.x but not 1.3.0 or later.
+                  </td>
+                  <td class="tr2">
+                    6.1
+                  </td>
+                </tr>
             </tbody>
           </table>
     </div>

@@ -11,6 +11,7 @@ from .utils import check as c
 from .utils import logs
 from .utils import corr
 from .utils import vuln
+from .utils import vulnerability
 
 # Create your views here. 126.8
 
@@ -297,6 +298,10 @@ def vulChecks(request, allowed):
 def vulChecksResult(request, allowed, pk):
 
     hosts = vuln.get_hosts()
+    versions = vuln.get_version_logs("127.0.0.1")
+    docker_version = versions[0]
+    runc_version = versions[1]
+    containerd_version = versions[2]
     try:
         myhost = h.get_hosts_from_invenotry()[0]
     except:

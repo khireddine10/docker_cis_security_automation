@@ -1,8 +1,6 @@
 #!/bin/bash
 
 str=$(systemctl show -p FragmentPath docker.service | cut -d "=" -f2)
-
 chown root:root $str
-
 echo "Done"
 echo "*Done*"

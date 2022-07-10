@@ -40,7 +40,11 @@ def remove_version_files():
 
 def get_version_logs(hostname):
     mypath = "/tmp/version-" + str(hostname)
+    mydata = list()
     if os.path.exists(mypath):
         with open(mypath, 'r') as file:
             data = file.readlines()
-    return data
+            for d in data:
+                mydata.append(d.strip())
+
+    return mydata
