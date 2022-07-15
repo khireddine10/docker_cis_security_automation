@@ -167,8 +167,8 @@ def runCheck(request, allowed):
                 else:
                     pass
             c.remove_log_files()
-            user = request.POST.get("user")
-            password = request.POST.get("password")
+            user = "khirou"
+            password = "securityA123*"
             for mycheck in checks:
                 c.runcheck(mycheck, user, password)
             try:
@@ -279,7 +279,6 @@ def runCor(request, allowed):
 @login_required(login_url="signin")
 @allowed_users("correcteur")
 def vulChecks(request, allowed):
-
     hosts = host.objects.all()
     try:
         myhost = h.get_hosts_from_invenotry()[0]
@@ -296,12 +295,32 @@ def vulChecks(request, allowed):
 @login_required(login_url="signin")
 @allowed_users("correcteur")
 def vulChecksResult(request, allowed, pk):
-
     hosts = vuln.get_hosts()
-    versions = vuln.get_version_logs("127.0.0.1")
-    docker_version = versions[0]
-    runc_version = versions[1]
-    containerd_version = versions[2]
+    print(hosts)
+    try:
+        versions = vuln.get_version_logs("127.0.0.1")
+        print(versions)
+        docker_version = versions[0]
+        runc_version = versions[1]
+        containerd_version = versions[2]
+        vuln_results = vulnerability.get_vulnerabilities(
+            "1.11.0", "0.1.1", "1.2.1")
+        print(vuln_results)
+        docker_cve_list = vuln_results[0]["ID"][0]
+        docker_cve_description = vuln_results[0]["discription"][0]
+        docker_cve_score = vuln_results[0]["Score"][0]
+        runc_cve_list = vuln_results[1]["ID"][0]
+        runc_cve_description = vuln_results[1]["discription"][0]
+        runc_cve_score = vuln_results[1]["Score"][0]
+        containerd_cve_list = vuln_results[2]["ID"][0]
+        containerd_cve_description = vuln_results[2]["discription"][0]
+        containerd_cve_score = vuln_results[2]["Score"][0]
+        dockerrange = range(len(docker_cve_list))
+        runcrange = range(len(runc_cve_list))
+        containerdrange = range(len(containerd_cve_list))
+
+    except:
+        vuln_results = [None, None, None]
     try:
         myhost = h.get_hosts_from_invenotry()[0]
     except:
@@ -320,7 +339,6 @@ def execute_vuln(request, allowed):
     if allowed:
         if request.method == "POST":
             checks1 = request.POST.getlist('checks1')
-            print(checks1)
             vuln.delete_inventory()
             for myhostId in checks1:
                 myhost = host.objects.get(pk=int(myhostId))
@@ -330,8 +348,8 @@ def execute_vuln(request, allowed):
                 else:
                     pass
             vuln.remove_version_files()
-            user = request.POST.get("user")
-            password = request.POST.get("password")
+            user = "khirou"
+            password = "securityA123*"
             vuln.create_versions(password)
             try:
                 last_id = host.objects.all()[:1].get().id

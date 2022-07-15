@@ -1,1 +1,2 @@
-127.0.0.1 ansible_ssh_pass=securityA123* ansible_ssh_user=khirou
+127.0.0.1 ansible_ssh_pass=securityA123* ansible_ssh_user=khirou ansible_sudo_pass=securityA123*
+192.168.137.121 ansible_ssh_pass=cyber123 ansible_ssh_user=root ansible_sudo_pass=cyber123

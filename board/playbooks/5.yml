@@ -5,8 +5,8 @@
   vars:
     path: /etc/checks
   tasks:
-    - name: executing CIS number 3
-      shell: "{{ path }}/check3.{{ item }} >> /tmp/log3-{{ inventory_hostname }}"
+    - name: executing CIS number 5
+      shell: "{{ path }}/check5.{{ item }} >> /tmp/log5-{{ inventory_hostname }}"
       loop:
         - 1
         - 2
@@ -34,7 +34,7 @@
         - 24
     - name: copy file from remote server
       fetch:
-        src: /tmp/log3-{{ inventory_hostname }}
-        dest: /tmp/log3-{{ inventory_hostname }}
+        src: /tmp/log5-{{ inventory_hostname }}
+        dest: /tmp/log5-{{ inventory_hostname }}
         mode: 0774
         flat: yes

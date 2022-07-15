@@ -4,7 +4,13 @@
   become: yes
   hosts: all
   vars:
-    corr_path: "/home/khirou/Desktop/pfe/dashboard/dashboard/board/utils/corrections"
+    corr_path: "/etc/corrections"
   tasks:
     - name: run the correction
       shell: "{{ corr_path }}/{{ name }} >> /tmp/corr-{{ inventory_hostname }}"
+    - name: copy file from remote server
+      fetch:
+        src: /tmp/corr-{{ inventory_hostname }}
+        dest: /tmp/corr-{{ inventory_hostname }}
+        mode: 0774
+        flat: yes

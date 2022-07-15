@@ -1,12 +1,12 @@
 - name: Docker host configuration
+  hosts: all
   remote_user: root
   become: yes
-  hosts: all
   vars:
     path: /etc/checks
   tasks:
-    - name: executing CIS number 7
-      shell: "{{ path }}/check7.{{ item }} >> /tmp/log7-{{ inventory_hostname }}"
+    - name: executing CIS number 4
+      shell: "{{ path }}/check4.{{ item }} >> /tmp/log4-{{ inventory_hostname }}"
       loop:
         - 1
         - 2
@@ -18,9 +18,10 @@
         - 8
         - 9
         - 10
+        - 11
     - name: copy file from remote server
       fetch:
-        src: /tmp/log7-{{ inventory_hostname }}
-        dest: /tmp/log7-{{ inventory_hostname }}
+        src: /tmp/log4-{{ inventory_hostname }}
+        dest: /tmp/log4-{{ inventory_hostname }}
         mode: 0774
         flat: yes

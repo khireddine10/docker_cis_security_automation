@@ -3,10 +3,16 @@
   become: yes
   hosts: all
   vars:
-    path: /home/khirou/Desktop/pfe/dashboard/dashboard/board/utils/checks
+    path: /etc/checks
   tasks:
     - name: executing CIS number 6
       shell: "{{ path }}/check6.{{ item }} >> /tmp/log6-{{ inventory_hostname }}"
       loop:
         - 1
         - 2
+    - name: copy file from remote server
+      fetch:
+        src: /tmp/log6-{{ inventory_hostname }}
+        dest: /tmp/log6-{{ inventory_hostname }}
+        mode: 0774
+        flat: yes

@@ -16,3 +16,8 @@ def replace(value):
 def get_check_id(value):
     mylist = value.split(" ")
     return mylist[1]
+
+
+@register.filter
+def index(indexable, i):
+    return indexable[i]
