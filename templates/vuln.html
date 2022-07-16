@@ -30,7 +30,7 @@
             <ul id="roleList" class="nav nav-list bs-docs-sidenav">
               {% for host in hosts %}
               <li class="active">
-                <a href="#"><i class="icon-chevron-right"></i>
+                <a href="{% url 'vulresult' host.hostname %}"><i class="icon-chevron-right"></i>
                   <div class="form-check form-switch">
                   <input class="form-check-input" name="checks1" type="checkbox" value="{{host.id}}">
                   {{host.hostname}}</div></a>
