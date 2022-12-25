@@ -46,10 +46,3 @@ Make your changes, and make sure to include tests for any new features.
 Run the tests to ensure that everything is working correctly.
 Submit a pull request, describing your changes and why they are needed.
 
-# Contribution guidelines
-We welcome contributions to this project! If you would like to contribute, please follow these guidelines:
-
-Fork the repository and create a new branch for your changes.
-Make your changes, and make sure to include tests for any new features.
-Run the tests to ensure that everything is working correctly.
-Submit a pull request, describing your changes and why they are needed.
